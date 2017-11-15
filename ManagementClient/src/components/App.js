@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import TabHeader from './TabHeader';
 import NotFoundPage from './NotFoundPage';
-import IncidentPage from '../Containers/IncidentPage';
-import NotificationPage from '../Containers/NotificationPage';
+import IncidentPage from '../containers/IncidentPage';
+import NotificationPage from '../containers/NotificationPage';
 
 // This is a class-based component because the current
 // version of hot reloading won't hot reload a stateless
