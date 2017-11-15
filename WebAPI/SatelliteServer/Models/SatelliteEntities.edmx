@@ -1,0 +1,556 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SatelliteModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="GroupID" />
+          </Key>
+          <Property Name="GroupID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ADName" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Incident">
+          <Key>
+            <PropertyRef Name="IncidentID" />
+          </Key>
+          <Property Name="IncidentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" />
+          <Property Name="Body" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="ResolvedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="ResolvedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="IncidentGroup">
+          <Key>
+            <PropertyRef Name="IncidentID" />
+            <PropertyRef Name="GroupID" />
+          </Key>
+          <Property Name="IncidentID" Type="int" Nullable="false" />
+          <Property Name="GroupID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IncidentLink">
+          <Key>
+            <PropertyRef Name="IncidentID" />
+            <PropertyRef Name="LinkID" />
+          </Key>
+          <Property Name="IncidentID" Type="int" Nullable="false" />
+          <Property Name="LinkID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IncidentTag">
+          <Key>
+            <PropertyRef Name="IncidentID" />
+            <PropertyRef Name="TagID" />
+          </Key>
+          <Property Name="IncidentID" Type="int" Nullable="false" />
+          <Property Name="TagID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Link">
+          <Key>
+            <PropertyRef Name="LinkID" />
+          </Key>
+          <Property Name="URL" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Label" Type="nvarchar" MaxLength="50" />
+          <Property Name="LinkID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Notification">
+          <Key>
+            <PropertyRef Name="NotificationID" />
+          </Key>
+          <Property Name="NotificationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" />
+          <Property Name="Body" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Start" Type="datetime" Nullable="false" />
+          <Property Name="Finish" Type="datetime" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NotificationGroup">
+          <Key>
+            <PropertyRef Name="NotificationID" />
+            <PropertyRef Name="GroupID" />
+          </Key>
+          <Property Name="NotificationID" Type="int" Nullable="false" />
+          <Property Name="GroupID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NotificationLink">
+          <Key>
+            <PropertyRef Name="NotificationID" />
+            <PropertyRef Name="LinkID" />
+          </Key>
+          <Property Name="NotificationID" Type="int" Nullable="false" />
+          <Property Name="LinkID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NotificationTag">
+          <Key>
+            <PropertyRef Name="NotificationID" />
+            <PropertyRef Name="TagID" />
+          </Key>
+          <Property Name="NotificationID" Type="int" Nullable="false" />
+          <Property Name="TagID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tag">
+          <Key>
+            <PropertyRef Name="TagID" />
+          </Key>
+          <Property Name="TagID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_IncidentGroup_Group">
+          <End Role="Group" Type="Self.Group" Multiplicity="1" />
+          <End Role="IncidentGroup" Type="Self.IncidentGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="IncidentGroup">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IncidentGroup_Incident">
+          <End Role="Incident" Type="Self.Incident" Multiplicity="1" />
+          <End Role="IncidentGroup" Type="Self.IncidentGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Incident">
+              <PropertyRef Name="IncidentID" />
+            </Principal>
+            <Dependent Role="IncidentGroup">
+              <PropertyRef Name="IncidentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IncidentLink_Incident">
+          <End Role="Incident" Type="Self.Incident" Multiplicity="1" />
+          <End Role="IncidentLink" Type="Self.IncidentLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Incident">
+              <PropertyRef Name="IncidentID" />
+            </Principal>
+            <Dependent Role="IncidentLink">
+              <PropertyRef Name="IncidentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IncidentLink_Link">
+          <End Role="Link" Type="Self.Link" Multiplicity="1" />
+          <End Role="IncidentLink" Type="Self.IncidentLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Link">
+              <PropertyRef Name="LinkID" />
+            </Principal>
+            <Dependent Role="IncidentLink">
+              <PropertyRef Name="LinkID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IncidentTag_Incident">
+          <End Role="Incident" Type="Self.Incident" Multiplicity="1" />
+          <End Role="IncidentTag" Type="Self.IncidentTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Incident">
+              <PropertyRef Name="IncidentID" />
+            </Principal>
+            <Dependent Role="IncidentTag">
+              <PropertyRef Name="IncidentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IncidentTag_Tag">
+          <End Role="Tag" Type="Self.Tag" Multiplicity="1" />
+          <End Role="IncidentTag" Type="Self.IncidentTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tag">
+              <PropertyRef Name="TagID" />
+            </Principal>
+            <Dependent Role="IncidentTag">
+              <PropertyRef Name="TagID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NotificationGroup_Group">
+          <End Role="Group" Type="Self.Group" Multiplicity="1" />
+          <End Role="NotificationGroup" Type="Self.NotificationGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="NotificationGroup">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NotificationGroup_Notification">
+          <End Role="Notification" Type="Self.Notification" Multiplicity="1" />
+          <End Role="NotificationGroup" Type="Self.NotificationGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Notification">
+              <PropertyRef Name="NotificationID" />
+            </Principal>
+            <Dependent Role="NotificationGroup">
+              <PropertyRef Name="NotificationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NotificationLink_Link">
+          <End Role="Link" Type="Self.Link" Multiplicity="1" />
+          <End Role="NotificationLink" Type="Self.NotificationLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Link">
+              <PropertyRef Name="LinkID" />
+            </Principal>
+            <Dependent Role="NotificationLink">
+              <PropertyRef Name="LinkID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NotificationLink_Notification">
+          <End Role="Notification" Type="Self.Notification" Multiplicity="1" />
+          <End Role="NotificationLink" Type="Self.NotificationLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Notification">
+              <PropertyRef Name="NotificationID" />
+            </Principal>
+            <Dependent Role="NotificationLink">
+              <PropertyRef Name="NotificationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NotificationTag_Notification">
+          <End Role="Notification" Type="Self.Notification" Multiplicity="1" />
+          <End Role="NotificationTag" Type="Self.NotificationTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Notification">
+              <PropertyRef Name="NotificationID" />
+            </Principal>
+            <Dependent Role="NotificationTag">
+              <PropertyRef Name="NotificationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NotificationTag_Tag">
+          <End Role="Tag" Type="Self.Tag" Multiplicity="1" />
+          <End Role="NotificationTag" Type="Self.NotificationTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tag">
+              <PropertyRef Name="TagID" />
+            </Principal>
+            <Dependent Role="NotificationTag">
+              <PropertyRef Name="TagID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SatelliteModelStoreContainer">
+          <EntitySet Name="Group" EntityType="Self.Group" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Incident" EntityType="Self.Incident" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IncidentGroup" EntityType="Self.IncidentGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IncidentLink" EntityType="Self.IncidentLink" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IncidentTag" EntityType="Self.IncidentTag" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Link" EntityType="Self.Link" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Notification" EntityType="Self.Notification" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NotificationGroup" EntityType="Self.NotificationGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NotificationLink" EntityType="Self.NotificationLink" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NotificationTag" EntityType="Self.NotificationTag" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tag" EntityType="Self.Tag" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_IncidentGroup_Group" Association="Self.FK_IncidentGroup_Group">
+            <End Role="Group" EntitySet="Group" />
+            <End Role="IncidentGroup" EntitySet="IncidentGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IncidentGroup_Incident" Association="Self.FK_IncidentGroup_Incident">
+            <End Role="Incident" EntitySet="Incident" />
+            <End Role="IncidentGroup" EntitySet="IncidentGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IncidentLink_Incident" Association="Self.FK_IncidentLink_Incident">
+            <End Role="Incident" EntitySet="Incident" />
+            <End Role="IncidentLink" EntitySet="IncidentLink" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IncidentLink_Link" Association="Self.FK_IncidentLink_Link">
+            <End Role="Link" EntitySet="Link" />
+            <End Role="IncidentLink" EntitySet="IncidentLink" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IncidentTag_Incident" Association="Self.FK_IncidentTag_Incident">
+            <End Role="Incident" EntitySet="Incident" />
+            <End Role="IncidentTag" EntitySet="IncidentTag" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IncidentTag_Tag" Association="Self.FK_IncidentTag_Tag">
+            <End Role="Tag" EntitySet="Tag" />
+            <End Role="IncidentTag" EntitySet="IncidentTag" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NotificationGroup_Group" Association="Self.FK_NotificationGroup_Group">
+            <End Role="Group" EntitySet="Group" />
+            <End Role="NotificationGroup" EntitySet="NotificationGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NotificationGroup_Notification" Association="Self.FK_NotificationGroup_Notification">
+            <End Role="Notification" EntitySet="Notification" />
+            <End Role="NotificationGroup" EntitySet="NotificationGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NotificationLink_Link" Association="Self.FK_NotificationLink_Link">
+            <End Role="Link" EntitySet="Link" />
+            <End Role="NotificationLink" EntitySet="NotificationLink" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NotificationLink_Notification" Association="Self.FK_NotificationLink_Notification">
+            <End Role="Notification" EntitySet="Notification" />
+            <End Role="NotificationLink" EntitySet="NotificationLink" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NotificationTag_Notification" Association="Self.FK_NotificationTag_Notification">
+            <End Role="Notification" EntitySet="Notification" />
+            <End Role="NotificationTag" EntitySet="NotificationTag" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NotificationTag_Tag" Association="Self.FK_NotificationTag_Tag">
+            <End Role="Tag" EntitySet="Tag" />
+            <End Role="NotificationTag" EntitySet="NotificationTag" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SatelliteModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="GroupID" />
+          </Key>
+          <Property Name="GroupID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ADName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Incidents" Relationship="Self.IncidentGroup" FromRole="Group" ToRole="Incident" />
+          <NavigationProperty Name="Notifications" Relationship="Self.NotificationGroup" FromRole="Group" ToRole="Notification" />
+        </EntityType>
+        <EntityType Name="Incident">
+          <Key>
+            <PropertyRef Name="IncidentID" />
+          </Key>
+          <Property Name="IncidentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Body" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ResolvedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ResolvedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Groups" Relationship="Self.IncidentGroup" FromRole="Incident" ToRole="Group" />
+          <NavigationProperty Name="Links" Relationship="Self.IncidentLink" FromRole="Incident" ToRole="Link" />
+          <NavigationProperty Name="Tags" Relationship="Self.IncidentTag" FromRole="Incident" ToRole="Tag" />
+        </EntityType>
+        <EntityType Name="Link">
+          <Key>
+            <PropertyRef Name="LinkID" />
+          </Key>
+          <Property Name="URL" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Label" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LinkID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Incidents" Relationship="Self.IncidentLink" FromRole="Link" ToRole="Incident" />
+          <NavigationProperty Name="Notifications" Relationship="Self.NotificationLink" FromRole="Link" ToRole="Notification" />
+        </EntityType>
+        <EntityType Name="Notification">
+          <Key>
+            <PropertyRef Name="NotificationID" />
+          </Key>
+          <Property Name="NotificationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Body" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Start" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Finish" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Groups" Relationship="Self.NotificationGroup" FromRole="Notification" ToRole="Group" />
+          <NavigationProperty Name="Links" Relationship="Self.NotificationLink" FromRole="Notification" ToRole="Link" />
+          <NavigationProperty Name="Tags" Relationship="Self.NotificationTag" FromRole="Notification" ToRole="Tag" />
+        </EntityType>
+        <EntityType Name="Tag">
+          <Key>
+            <PropertyRef Name="TagID" />
+          </Key>
+          <Property Name="TagID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Incidents" Relationship="Self.IncidentTag" FromRole="Tag" ToRole="Incident" />
+          <NavigationProperty Name="Notifications" Relationship="Self.NotificationTag" FromRole="Tag" ToRole="Notification" />
+        </EntityType>
+        <Association Name="IncidentGroup">
+          <End Role="Group" Type="Self.Group" Multiplicity="*" />
+          <End Role="Incident" Type="Self.Incident" Multiplicity="*" />
+        </Association>
+        <Association Name="IncidentLink">
+          <End Role="Incident" Type="Self.Incident" Multiplicity="*" />
+          <End Role="Link" Type="Self.Link" Multiplicity="*" />
+        </Association>
+        <Association Name="IncidentTag">
+          <End Role="Incident" Type="Self.Incident" Multiplicity="*" />
+          <End Role="Tag" Type="Self.Tag" Multiplicity="*" />
+        </Association>
+        <Association Name="NotificationGroup">
+          <End Role="Group" Type="Self.Group" Multiplicity="*" />
+          <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
+        </Association>
+        <Association Name="NotificationLink">
+          <End Role="Link" Type="Self.Link" Multiplicity="*" />
+          <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
+        </Association>
+        <Association Name="NotificationTag">
+          <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
+          <End Role="Tag" Type="Self.Tag" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="SatelliteEntityDB" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Groups" EntityType="Self.Group" />
+          <EntitySet Name="Incidents" EntityType="Self.Incident" />
+          <EntitySet Name="Links" EntityType="Self.Link" />
+          <EntitySet Name="Notifications" EntityType="Self.Notification" />
+          <EntitySet Name="Tags" EntityType="Self.Tag" />
+          <AssociationSet Name="IncidentGroup" Association="Self.IncidentGroup">
+            <End Role="Group" EntitySet="Groups" />
+            <End Role="Incident" EntitySet="Incidents" />
+          </AssociationSet>
+          <AssociationSet Name="IncidentLink" Association="Self.IncidentLink">
+            <End Role="Incident" EntitySet="Incidents" />
+            <End Role="Link" EntitySet="Links" />
+          </AssociationSet>
+          <AssociationSet Name="IncidentTag" Association="Self.IncidentTag">
+            <End Role="Incident" EntitySet="Incidents" />
+            <End Role="Tag" EntitySet="Tags" />
+          </AssociationSet>
+          <AssociationSet Name="NotificationGroup" Association="Self.NotificationGroup">
+            <End Role="Group" EntitySet="Groups" />
+            <End Role="Notification" EntitySet="Notifications" />
+          </AssociationSet>
+          <AssociationSet Name="NotificationLink" Association="Self.NotificationLink">
+            <End Role="Link" EntitySet="Links" />
+            <End Role="Notification" EntitySet="Notifications" />
+          </AssociationSet>
+          <AssociationSet Name="NotificationTag" Association="Self.NotificationTag">
+            <End Role="Notification" EntitySet="Notifications" />
+            <End Role="Tag" EntitySet="Tags" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SatelliteModelStoreContainer" CdmEntityContainer="SatelliteEntityDB">
+          <EntitySetMapping Name="Groups">
+            <EntityTypeMapping TypeName="SatelliteModel.Group">
+              <MappingFragment StoreEntitySet="Group">
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ADName" ColumnName="ADName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Incidents">
+            <EntityTypeMapping TypeName="SatelliteModel.Incident">
+              <MappingFragment StoreEntitySet="Incident">
+                <ScalarProperty Name="IncidentID" ColumnName="IncidentID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Body" ColumnName="Body" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="ResolvedBy" ColumnName="ResolvedBy" />
+                <ScalarProperty Name="ResolvedDate" ColumnName="ResolvedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Links">
+            <EntityTypeMapping TypeName="SatelliteModel.Link">
+              <MappingFragment StoreEntitySet="Link">
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="Label" ColumnName="Label" />
+                <ScalarProperty Name="LinkID" ColumnName="LinkID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Notifications">
+            <EntityTypeMapping TypeName="SatelliteModel.Notification">
+              <MappingFragment StoreEntitySet="Notification">
+                <ScalarProperty Name="NotificationID" ColumnName="NotificationID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Body" ColumnName="Body" />
+                <ScalarProperty Name="Start" ColumnName="Start" />
+                <ScalarProperty Name="Finish" ColumnName="Finish" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tags">
+            <EntityTypeMapping TypeName="SatelliteModel.Tag">
+              <MappingFragment StoreEntitySet="Tag">
+                <ScalarProperty Name="TagID" ColumnName="TagID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="IncidentGroup" TypeName="SatelliteModel.IncidentGroup" StoreEntitySet="IncidentGroup">
+            <EndProperty Name="Group">
+              <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+            </EndProperty>
+            <EndProperty Name="Incident">
+              <ScalarProperty Name="IncidentID" ColumnName="IncidentID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="IncidentLink" TypeName="SatelliteModel.IncidentLink" StoreEntitySet="IncidentLink">
+            <EndProperty Name="Incident">
+              <ScalarProperty Name="IncidentID" ColumnName="IncidentID" />
+            </EndProperty>
+            <EndProperty Name="Link">
+              <ScalarProperty Name="LinkID" ColumnName="LinkID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="IncidentTag" TypeName="SatelliteModel.IncidentTag" StoreEntitySet="IncidentTag">
+            <EndProperty Name="Incident">
+              <ScalarProperty Name="IncidentID" ColumnName="IncidentID" />
+            </EndProperty>
+            <EndProperty Name="Tag">
+              <ScalarProperty Name="TagID" ColumnName="TagID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="NotificationGroup" TypeName="SatelliteModel.NotificationGroup" StoreEntitySet="NotificationGroup">
+            <EndProperty Name="Group">
+              <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+            </EndProperty>
+            <EndProperty Name="Notification">
+              <ScalarProperty Name="NotificationID" ColumnName="NotificationID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="NotificationLink" TypeName="SatelliteModel.NotificationLink" StoreEntitySet="NotificationLink">
+            <EndProperty Name="Link">
+              <ScalarProperty Name="LinkID" ColumnName="LinkID" />
+            </EndProperty>
+            <EndProperty Name="Notification">
+              <ScalarProperty Name="NotificationID" ColumnName="NotificationID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="NotificationTag" TypeName="SatelliteModel.NotificationTag" StoreEntitySet="NotificationTag">
+            <EndProperty Name="Notification">
+              <ScalarProperty Name="NotificationID" ColumnName="NotificationID" />
+            </EndProperty>
+            <EndProperty Name="Tag">
+              <ScalarProperty Name="TagID" ColumnName="TagID" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
