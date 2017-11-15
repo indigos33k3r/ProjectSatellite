@@ -1,11 +1,11 @@
 /* eslint-disable import/no-named-as-default */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Switch, NavLink, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import TabHeader from './TabHeader';
 import NotFoundPage from './NotFoundPage';
-// import IncidentPage from '../Containers/IncidentPage';
-// import NotificationPage from '../Containers/NotificationPage';
+import IncidentPage from '../Containers/IncidentPage';
+import NotificationPage from '../Containers/NotificationPage';
 
 // This is a class-based component because the current
 // version of hot reloading won't hot reload a stateless
@@ -19,7 +19,10 @@ class App extends React.Component {
         <TabHeader Headers={TopTabs} />
         <Switch>
           <Route exact path="/" render={()=>(<Redirect to= "/Incidents" />)} />
-          <Route path="/Incidents" component={NotFoundPage} />
+          <Route exact path="/Incidents" render={()=>(<Redirect to= "/Incidents/Current" />)} />
+          <Route exact path="/Notifications" render={()=>(<Redirect to= "/Notifications/Current" />)} />
+          <Route path="/Incidents/:View" component={IncidentPage} />
+          <Route path="/Notifications/:View" component={NotificationPage} />
           <Route component={NotFoundPage} />
         </Switch>
       </div>
