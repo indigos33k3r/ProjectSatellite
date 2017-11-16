@@ -10,11 +10,11 @@ namespace SatelliteServer.Controllers
 {
     public class IncidentsController : ApiController
     {
-        private SatelliteEntityDB _context;
+        private SatelliteEntities _context;
 
         public IncidentsController()
         {
-            _context = new SatelliteEntityDB();
+            _context = new SatelliteEntities();
         }
 
 

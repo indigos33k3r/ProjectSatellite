@@ -4,8 +4,8 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="4f18a5dac68a4f01a9cc2f438cb4f286" Name="Diagram1">
-        <EntityTypeShape EntityType="SatelliteModel.Group" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+      <Diagram DiagramId="f5e56a6837fd4c63aa63761868f44a35" Name="Diagram1">
+        <EntityTypeShape EntityType="SatelliteModel.Group" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="SatelliteModel.Incident" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="SatelliteModel.Link" Width="1.5" PointX="5.25" PointY="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="SatelliteModel.Notification" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />

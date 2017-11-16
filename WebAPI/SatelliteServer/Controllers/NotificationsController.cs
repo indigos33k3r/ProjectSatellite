@@ -11,11 +11,11 @@ namespace SatelliteServer.Controllers
 {
     public class NotificationsController : ApiController
     {
-        private SatelliteEntityDB _context;
+        private SatelliteEntities _context;
 
         public NotificationsController()
         {
-            _context = new SatelliteEntityDB();
+            _context = new SatelliteEntities();
         }
 
 

@@ -393,7 +393,7 @@
           <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
           <End Role="Tag" Type="Self.Tag" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="SatelliteEntityDB" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="SatelliteEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Groups" EntityType="Self.Group" />
           <EntitySet Name="Incidents" EntityType="Self.Incident" />
           <EntitySet Name="Links" EntityType="Self.Link" />
@@ -429,7 +429,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="SatelliteModelStoreContainer" CdmEntityContainer="SatelliteEntityDB">
+        <EntityContainerMapping StorageEntityContainer="SatelliteModelStoreContainer" CdmEntityContainer="SatelliteEntities">
           <EntitySetMapping Name="Groups">
             <EntityTypeMapping TypeName="SatelliteModel.Group">
               <MappingFragment StoreEntitySet="Group">

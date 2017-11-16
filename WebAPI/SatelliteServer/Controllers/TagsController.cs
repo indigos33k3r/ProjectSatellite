@@ -10,14 +10,12 @@ namespace SatelliteServer.Controllers
 {
     public class TagsController : ApiController
     {
-        private SatelliteEntityDB _context;
+        private SatelliteEntities _context;
 
         public TagsController()
         {
-            _context = new SatelliteEntityDB();
+            _context = new SatelliteEntities();
         }
-
-
 
         // GET api/<controller>
         public IEnumerable<Tag> Get()

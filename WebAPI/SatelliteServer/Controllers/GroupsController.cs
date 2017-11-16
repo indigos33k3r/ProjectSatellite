@@ -10,11 +10,11 @@ namespace SatelliteServer.Controllers
 {
     public class GroupsController : ApiController
     {
-        private SatelliteEntityDB _context;
+        private SatelliteEntities _context;
 
         public GroupsController()
         {
-            _context = new SatelliteEntityDB();
+            _context = new SatelliteEntities();
         }
 
 

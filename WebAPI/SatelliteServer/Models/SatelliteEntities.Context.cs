@@ -13,10 +13,10 @@ namespace SatelliteServer.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class SatelliteEntityDB : DbContext
+    public partial class SatelliteEntities : DbContext
     {
-        public SatelliteEntityDB()
-            : base("name=SatelliteEntityDB")
+        public SatelliteEntities()
+            : base("name=SatelliteEntities")
         {
         }
     
